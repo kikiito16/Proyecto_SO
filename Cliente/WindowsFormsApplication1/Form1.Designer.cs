@@ -39,12 +39,13 @@
             this.IDBox = new System.Windows.Forms.TextBox();
             this.Contra = new System.Windows.Forms.RadioButton();
             this.button3 = new System.Windows.Forms.Button();
-            this.iniciarses = new System.Windows.Forms.Button();
-            this.usuBox = new System.Windows.Forms.TextBox();
-            this.contraBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.herramientasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.registrarseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.iniciarSesionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listaConectadosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -67,7 +68,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(25, 12);
+            this.button1.Location = new System.Drawing.Point(25, 27);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(259, 31);
             this.button1.TabIndex = 4;
@@ -163,72 +164,63 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // iniciarses
+            // menuStrip1
             // 
-            this.iniciarses.Location = new System.Drawing.Point(510, 53);
-            this.iniciarses.Name = "iniciarses";
-            this.iniciarses.Size = new System.Drawing.Size(99, 23);
-            this.iniciarses.TabIndex = 11;
-            this.iniciarses.Text = "Iniciar sesión";
-            this.iniciarses.UseVisualStyleBackColor = true;
-            this.iniciarses.Click += new System.EventHandler(this.iniciarses_Click);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.herramientasToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(741, 24);
+            this.menuStrip1.TabIndex = 17;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // usuBox
+            // herramientasToolStripMenuItem
             // 
-            this.usuBox.Location = new System.Drawing.Point(510, 104);
-            this.usuBox.Name = "usuBox";
-            this.usuBox.Size = new System.Drawing.Size(100, 20);
-            this.usuBox.TabIndex = 12;
-            this.usuBox.Visible = false;
+            this.herramientasToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.registrarseToolStripMenuItem,
+            this.iniciarSesionToolStripMenuItem,
+            this.listaConectadosToolStripMenuItem});
+            this.herramientasToolStripMenuItem.Name = "herramientasToolStripMenuItem";
+            this.herramientasToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
+            this.herramientasToolStripMenuItem.Text = "Herramientas";
             // 
-            // contraBox
+            // registrarseToolStripMenuItem
             // 
-            this.contraBox.Location = new System.Drawing.Point(510, 171);
-            this.contraBox.Name = "contraBox";
-            this.contraBox.Size = new System.Drawing.Size(100, 20);
-            this.contraBox.TabIndex = 13;
-            this.contraBox.Visible = false;
+            this.registrarseToolStripMenuItem.Name = "registrarseToolStripMenuItem";
+            this.registrarseToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.registrarseToolStripMenuItem.Text = "Registrarse";
             // 
-            // label1
+            // iniciarSesionToolStripMenuItem
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.label1.Location = new System.Drawing.Point(507, 88);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(43, 13);
-            this.label1.TabIndex = 14;
-            this.label1.Text = "Usuario";
-            this.label1.Visible = false;
+            this.iniciarSesionToolStripMenuItem.Name = "iniciarSesionToolStripMenuItem";
+            this.iniciarSesionToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.iniciarSesionToolStripMenuItem.Text = "Iniciar sesion";
+            this.iniciarSesionToolStripMenuItem.Click += new System.EventHandler(this.iniciarSesionToolStripMenuItem_Click);
             // 
-            // label4
+            // listaConectadosToolStripMenuItem
             // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.label4.Location = new System.Drawing.Point(507, 155);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(61, 13);
-            this.label4.TabIndex = 15;
-            this.label4.Text = "Contraseña";
-            this.label4.Visible = false;
+            this.listaConectadosToolStripMenuItem.Name = "listaConectadosToolStripMenuItem";
+            this.listaConectadosToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.listaConectadosToolStripMenuItem.Text = "Lista conectados";
+            this.listaConectadosToolStripMenuItem.Click += new System.EventHandler(this.listaConectadosToolStripMenuItem_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(741, 562);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.contraBox);
-            this.Controls.Add(this.usuBox);
-            this.Controls.Add(this.iniciarses);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -247,11 +239,11 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox IDBox;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button iniciarses;
-        private System.Windows.Forms.TextBox usuBox;
-        private System.Windows.Forms.TextBox contraBox;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem herramientasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem registrarseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem iniciarSesionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem listaConectadosToolStripMenuItem;
     }
 }
 

@@ -29,13 +29,13 @@ namespace WindowsFormsApplication1
            
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public void button1_Click(object sender, EventArgs e)
         {
             
             //Creamos un IPEndPoint con el ip del servidor y puerto del servidor 
             //al que deseamos conectarnos
             IPAddress direc = IPAddress.Parse("192.168.56.102");
-            IPEndPoint ipep = new IPEndPoint(direc, 9020);
+            IPEndPoint ipep = new IPEndPoint(direc, 9050);
             
 
             //Creamos el socket 
@@ -53,10 +53,7 @@ namespace WindowsFormsApplication1
                 MessageBox.Show("No he podido conectar con el servidor");
                 return;
             }
-            label1.Visible = true;
-            label4.Visible = true;
-            usuBox.Visible = true;
-            contraBox.Visible = true;
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -122,14 +119,24 @@ namespace WindowsFormsApplication1
 
         }
 
-        private void iniciarses_Click(object sender, EventArgs e)
+
+        private void iniciarSesionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           
-            usuario = usuBox.Text;
-            psw = contraBox.Text;
-            if ((usuario != null) && (psw != null))
+            
+            Form2 f2 = new Form2();
+            f2.enviado+=new Form2.enviar(iniciarsesion);
+            f2.Show();     
+
+        }
+
+        public void iniciarsesion(string usu, string psw)
+        {
+            string contra;
+            usuario = usu;
+            contra = psw;
+            if ((usuario != string.Empty) && (contra != string.Empty))
             {
-                string mensaje = "4/" + usuBox.Text + "/" + contraBox.Text;
+                string mensaje = "4/" + usuario + "/" + contra;
 
                 byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
                 server.Send(msg);
@@ -138,17 +145,27 @@ namespace WindowsFormsApplication1
                 server.Receive(msg2);
                 mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
                 if (mensaje == psw)
-                    MessageBox.Show("Has iniciado sesión como:" + usuBox.Text);
+                    MessageBox.Show("Has iniciado sesión como:" + usuario);
                 else
                     MessageBox.Show("La contraseña es incorrecta");
             }
             else
                 MessageBox.Show("Rellena todos los campos");
-            label1.Visible = false;
-            label4.Visible = false;
-            usuBox.Visible = false;
-            contraBox.Visible = false;
+           
+        }
 
+        private void listaConectadosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string mensaje = "5/";
+            // Enviamos al servidor el nombre tecleado
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+
+            //Recibimos la respuesta del servidor
+            byte[] msg2 = new byte[80];
+            server.Receive(msg2);
+            mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+            MessageBox.Show(mensaje);
         }
 
 
