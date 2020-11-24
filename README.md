@@ -4,4 +4,5 @@ V1 verificada por Freddy Torrres
 V2 generada por Arnau Delprat
 V2 verificada por Enric Pintor
 V3 generada por Freddy Torres
+V3 verificada por Arnau Delprat
 
