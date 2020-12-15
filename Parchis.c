@@ -7,8 +7,9 @@
 #include <stdio.h>
 #include <mysql.h>
 #include <pthread.h>
-#include <my_global.h>
-int i=0;
+//#include <my_global.h>
+
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 //----------------------------------------------------------------------------//
 //Vamos a definir la estructuras para los conectados y la lista de conectados
 typedef struct {
@@ -26,6 +27,14 @@ ListaConectados miLista;
 //Creamos una lista de sockets
 int sockets[100];
 int i;
+
+//Construimos la consulta SQL
+MYSQL *conn;    //Preparamos las variables para usar la base de datos
+int err;
+MYSQL_RES *resultado;
+MYSQL_ROW row;
+char consulta [80];
+
 //----------------------------------------------------------------------------//
 
 //Vamos a definir el método DameGanador para la implementación: 1
@@ -33,13 +42,9 @@ int i;
 
 void DameGanador (char id[30], char respuesta[60])
 {
+	printf("---------------------------------------------------\n");
+	printf("Has entrado en la implementación 1 (DameGanador)\n");
 	
-	//Construimos la consulta SQL
-	MYSQL *conn;    //Preparamos las variables para usar la base de datos
-	int err;
-	MYSQL_RES *resultado;
-	MYSQL_ROW row;
-	char consulta [80];
 	
 	//Creamos una conexion al servidor MYSQL
 	conn = mysql_init(NULL);
@@ -50,7 +55,7 @@ void DameGanador (char id[30], char respuesta[60])
 	}
 	
 	//inicializamos la conexion
-	conn = mysql_real_connect (conn, "shiva2.upc.es","root", "mysql", "T10_BD",0, NULL, 0);
+	conn = mysql_real_connect (conn, "localhost","root", "mysql", "T10_BD",0, NULL, 0);
 	if (conn==NULL) {
 		printf ("Error al inicializar la conexion: %u %s\n",
 				mysql_errno(conn), mysql_error(conn));
@@ -89,12 +94,9 @@ void DameGanador (char id[30], char respuesta[60])
 //Buscar la contraseña del usuario cuya contraseña recibimos por parametro
 void DameContra(char contra[30], char respuesta[512])
 {
-	//Construimos la consulta SQL
-	MYSQL *conn;    //Preparamos las variables para usar la base de datos
-	int err;
-	MYSQL_RES *resultado;
-	MYSQL_ROW row;
-	char consulta [80];
+	printf("---------------------------------------------------\n");
+	printf("Has entrado en la implementación 2 (DameContra)\n");
+	
 	
 	//Creamos una conexion al servidor MYSQL
 	conn = mysql_init(NULL);
@@ -105,7 +107,7 @@ void DameContra(char contra[30], char respuesta[512])
 	}
 	
 	//inicializamos la conexion
-	conn = mysql_real_connect (conn, "shiva2.upc.es","root", "mysql", "T10_BD",0, NULL, 0);
+	conn = mysql_real_connect (conn, "localhost","root", "mysql", "T10_BD",0, NULL, 0);
 	if (conn==NULL) {
 		printf ("Error al inicializar la conexion: %u %s\n",
 				mysql_errno(conn), mysql_error(conn));
@@ -145,12 +147,8 @@ void DameContra(char contra[30], char respuesta[512])
 //Buscar los jugadores que están jugando una partida cuyo identificador lo pasamos parametro
 void DimeJugadores (char id[30], char respuesta[60])
 {
-	//Construimos la consulta SQL
-	MYSQL *conn;    //Preparamos las variables para usar la base de datos
-	int err;
-	MYSQL_RES *resultado;
-	MYSQL_ROW row;
-	char consulta [80];
+	printf("---------------------------------------------------\n");
+	printf("Has entrado en la implementación 3 (DimeJugadores)\n");
 	
 	//Creamos una conexion al servidor MYSQL
 	conn = mysql_init(NULL);
@@ -161,7 +159,7 @@ void DimeJugadores (char id[30], char respuesta[60])
 	}
 	
 	//inicializamos la conexion
-	conn = mysql_real_connect (conn, "shiva2.upc.es","root", "mysql", "T10_BD",0, NULL, 0);
+	conn = mysql_real_connect (conn, "localhost","root", "mysql", "T10_BD",0, NULL, 0);
 	if (conn==NULL) {
 		printf ("Error al inicializar la conexion: %u %s\n",
 				mysql_errno(conn), mysql_error(conn));
@@ -188,31 +186,85 @@ void DimeJugadores (char id[30], char respuesta[60])
 	{
 		printf("Los jugadores de la partida son: \n");
 		sprintf(respuesta, "3/Los jugadores de la partida son: %s\n",row [0]);
-		//sprintf(respuesta, "%s \n", row[0]);
 	}
-	//sprintf(respuesta,"%s",res);
 }
+//----------------------------------------------------------------------------//
+//Vamos a definir la función de registrar que nos añadirá el usuario y contraseña
+//a nuestra base de datos
+/*void RegistrarUsuario(ListaConectados *lista, char UsuarioRegistrar[20], char ContraseñaRegistrar[20])
+{
+printf("---------------------------------------------------\n");
+printf("Has entrado en la implementación 4 (RegistrarUsuarios)\n");
+
+//Inicializamos la conexion
+MYSQL *conn;
+int err;
+char dni[10]; 
+char nombre [25]; 
+int edad;
+char edads [3];
+int i;
+char consulta [80];
+
+//Creamos una conexion al servidor MYSQL 
+conn = mysql_init(NULL);
+if (conn==NULL) {
+printf ("Error al crear la conexion: %u %s\n",
+mysql_errno(conn), mysql_error(conn));
+exit (1);
+}
+//inicializar la conexion, entrando nuestras claves de acceso y
+//el nombre de la base de datos a la que queremos acceder 
+conn = mysql_real_connect (conn, "localhost","root", "mysql", "T10_BD",0, NULL, 0);
+if (conn==NULL) {
+printf ("Error al inicializar la conexion: %u %s\n",
+mysql_errno(conn), mysql_error(conn));
+exit (1);
+}
+//Introduciremos en la base de datos de la persona, 
+//cuyos datos pedimos al usuario
+for (i=0; i<4; i++) 
+{
+printf ("Escribe el DNI, nombre y edad de la persona, separados por un blanco\n");
+err = scanf ("%s %s %d", dni, nombre, &edad);
+if (err!=3) 
+{
+printf ("Error al introducir los datos \n");
+exit (1);
+}
+}
+
+
+
+}
+*/
 //----------------------------------------------------------------------------//
 
 //Vamos a definir el método PonUsuario para la implementación: 4
 //Añadiremos usuarios a nuestra ListaConectados recibido por parametro
-int PonUsuario (ListaConectados *lista,char nombre[20], int socket)
+int PonUsuario (ListaConectados *lista,char nombre[20], int socket_pon)
 {	//Añade un nuevo conectado  (0 todo ok, -1 si esta llena)
+	printf("---------------------------------------------------\n");
+	printf("Has entrado en la función (PonUsuario)\n");
 	if (lista->num==100)
 		return -1;
 	else{
 		strcpy(lista->conectados[lista->num].nombre,nombre);
-		lista->conectados[lista->num].socket=socket;
+		lista->conectados[lista->num].socket=socket_pon;
 		lista->num++;
-		printf("Conectado %d \n", socket);
+		printf("Hemos añadido el socket con el que has conectado: %d \n", socket_pon);
 		return 0;
 	}
 }
 
 //A partir del metodo PonUsuario creamos el metodo LogIn en el que pediremos 
 //al cliente que se registre y lo añadiremos a nuestra ListaConectados
-void LogIn(ListaConectados *l,char us[60], char psw[60], char respuesta[512])
+void LogIn(ListaConectados *l,char us[60], char psw[60], int socket_login, char respuesta[512])
 {
+	
+	printf("---------------------------------------------------\n");
+	printf("Has entrado en la implementación 4 (LogIn)\n");
+	
 	//Construimos la consulta SQL
 	MYSQL *conn;    //Preparamos las variables para usar la base de datos
 	int err;
@@ -230,7 +282,7 @@ void LogIn(ListaConectados *l,char us[60], char psw[60], char respuesta[512])
 	}
 	
 	//inicializamos la conexion
-	conn = mysql_real_connect (conn, "shiva2.upc.es","root", "mysql", "T10_BD",0, NULL, 0);
+	conn = mysql_real_connect (conn, "localhost","root", "mysql", "T10_BD",0, NULL, 0);
 	if (conn==NULL) {
 		printf ("Error al inicializar la conexion: %u %s\n",
 				mysql_errno(conn), mysql_error(conn));
@@ -253,18 +305,21 @@ void LogIn(ListaConectados *l,char us[60], char psw[60], char respuesta[512])
 	row = mysql_fetch_row (resultado);
 	
 	if (row == NULL)
-		sprintf (respuesta,"4/Este usuario no existe \n");
+		sprintf (respuesta,"4/Alguno de los datos es incorrecto \n");
 	
 	else
 	{
 		if(strcmp(psw,row[0])==0){
-			printf("Usuario: %s, Contraseña: %s\n", us, psw);
+			printf("Acabas de iniciar sesion como --> |Usuario: %s|Contraseña: %s|\n", us, psw);
 			sprintf(respuesta, "4/%s",us);
-			PonUsuario(l,us,i);		
+			pthread_mutex_lock( &mutex);
+			PonUsuario(l,us,socket_login);	
+			//printf("Guardo en la lista %d %s\n",i,us);
 			i++;
+			pthread_mutex_unlock( &mutex);
 		}
 	}
-	printf ("%s\n",respuesta);
+	printf ("Hemos enviado la respuesta: %s\n",respuesta);
 }
 //----------------------------------------------------------------------------//
 
@@ -273,6 +328,8 @@ void LogIn(ListaConectados *l,char us[60], char psw[60], char respuesta[512])
 //Devuelve la posicion 0 si está en la lista el usuario o -1 si no esta en la lista el usuario.
 int DamePos (ListaConectados *lista,char nombre[20])
 {
+	printf("---------------------------------------------------\n");
+	printf("Has entrado en la función (ListaConectados)\n");
 	int i=0;
 	int encontrado=0;
 	while ((i<lista->num) && !encontrado)
@@ -288,10 +345,31 @@ int DamePos (ListaConectados *lista,char nombre[20])
 		return -1;
 }
 
+int DameSocket (ListaConectados *lista, char nombre [20])
+{ //Devuelve el socket o -1 si no esta en la lista
+	printf("---------------------------------------------------\n");
+	printf("Has entrado en la función (DameSocket)\n");
+	int i = 0;
+	int encontrado =0;
+	while ((i<lista->num)&&(encontrado == 0))
+	{
+		if (strcmp(lista->conectados[i].nombre, nombre) == 0)
+		{
+			encontrado = 1;
+			return lista->conectados[i].socket;
+		}
+		i++;
+	}
+	if (!encontrado)
+		return -1;
+}
+
 
 //retorna 0 si se elimina correctamente o -1 si el usuario no está en la lista
 int EliminaUsuario (ListaConectados *lista,char nombre[20])
 {	
+	printf("---------------------------------------------------\n");
+	printf("Has entrado en la función (EliminaUsuario)\n");
 	int pos= DamePos(lista,nombre);
 	if (pos==-1)
 		return -1;
@@ -311,16 +389,17 @@ int EliminaUsuario (ListaConectados *lista,char nombre[20])
 //Nos devuelve todos los conectados separados por /. Primero pone el número de conectados
 // Ejemplo: 3/Enric/Juan/Pep
 void DameConectados (ListaConectados *lista,char conectados[300])
-{    
-	//sprintf(conectados,"%d/", lista->num);
-	
+{   
+	printf("---------------------------------------------------\n");
+	printf("Has entrado en la función (DameConectados)\n");
+	sprintf(conectados,"%d/", lista->num);
 	for (int i=0;  i<lista->num; i++)
 	{
-		sprintf(conectados, "%s %s", conectados, lista->conectados[i].nombre);
+		sprintf(conectados, "%s%s\n", conectados, lista->conectados[i].nombre);
 	}
 	
 	if (lista->num==0)
-		sprintf(conectados,"%d", lista->num);
+		sprintf(conectados,"%d\n", lista->num);
 }
 //----------------------------------------------------------------------------//
 
@@ -328,8 +407,6 @@ void DameConectados (ListaConectados *lista,char conectados[300])
 de conexión de múltles clientes y atenderlos adecuadamente que lo llamaremos AtenderCliente
 y sirve para llamar a las diversas funciones*/
 
-int contador;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 //Método para saber que hacer en cada caso
 void *AtenderCliente (void *socket)
@@ -354,23 +431,25 @@ void *AtenderCliente (void *socket)
 	//hasta que se desconecte
 	while (terminar ==0)
 	{
+		printf("---------------------------------------------------\n");
+		printf("Has entrado en la función (AtenderCliente)\n");
 		// Ahora recibimos la peticion
 		ret=read(sock_conn,peticion, sizeof(peticion));
-		printf ("Recibido\n");
+		printf ("Recibido, el socket conectado es: %d\n",sock_conn);
 		
 		// Tenemos que aÃ±adirle la marca de fin de string
 		// para que no escriba lo que hay despues en el buffer
 		peticion[ret]='\0';
 		
 		
-		printf ("Peticion: %s\n",peticion);
+		printf ("La peticion que vamos a procesar y buscar la funcion es: %s\n",peticion);
 		
 		// vamos a ver que quieren
 		char *p = strtok( peticion, "/");
 		int codigo =  atoi (p);
 		// Ya tenemos el codigo de la peticion
 		char nombre[20];
-		
+		char us[60];
 		
 		if (codigo !=0)
 		{
@@ -378,55 +457,127 @@ void *AtenderCliente (void *socket)
 			p = strtok( NULL, "/");
 			strcpy (nombre, p);
 			// Ya tenemos el nombre
-			printf ("Codigo: %d, Nombre: %s\n", codigo, nombre);
+			printf ("Podemos saber que el Codigo es: %d y el Nombre: %s\n", codigo, nombre);
 		}
 		
 		if (codigo ==0) //Peticion para la desconexion
 		{
+			printf("---------------------------------------------------\n");
+			printf("Entramos en la petición (Desconexion)\n");
 			terminar=1;
-			EliminaUsuario(&miLista,nombre);				
+			pthread_mutex_lock( &mutex);
+			EliminaUsuario(&miLista,nombre);
+			char conectados [512];
+			DameConectados(&miLista, conectados);
+			sprintf(notificacion,"5/%s ",conectados);			
+			for(int j =0; j<miLista.num;j++)
+			{
+				write(miLista.conectados[i].socket,notificacion,strlen(notificacion));
+				printf("%s\n",notificacion);
+			}
+			strcpy(notificacion,"");
+			pthread_mutex_unlock( &mutex);
 		}
 		
 		else if (codigo ==1) //Peticion de la implementacion: 1 (DameGanador)
 		{
+			printf("---------------------------------------------------\n");
+			printf("Entramos en la peticion (DameGanador)\n");
 			DameGanador(nombre,respuesta);
 		}
 		
-		else if (codigo ==2){ //Peticion de la implementacion: 2 (DameContra)
+		else if (codigo ==2) //Peticion de la implementacion: 2 (DameContra)
+		{ 
+			printf("---------------------------------------------------\n");
+			printf("Entramos en la peticion (DameContra)\n");
 			DameContra(nombre,respuesta);
 		}
 		
 		else if(codigo==3) //Peticion de la implementacion: 3 (DimeJugadores)
 		{
+			printf("---------------------------------------------------\n");
+			printf("Entramos en la peticion (DimeJugadores)\n");
 			DimeJugadores(nombre,respuesta);
 		}
 		
 		else if(codigo==4) //Peticion de la implementacion: 4 (LogIn)
 		{
-			
-			char us[60];
+			printf("---------------------------------------------------\n");
+			printf("Entramos en la peticion (LogIn)\n");
 			char psw[60];
 			strcpy(us,nombre);
 			p = strtok( NULL, "/");
 			strcpy(psw,p);
-			printf("Socket: %d \n",i);
-			LogIn(&miLista,us,psw,respuesta);
+			printf("El usuario es: %s y la contraseña es %s \n" ,us, psw);
+			//printf("Socket: %d \n",i);
+			LogIn(&miLista,us,psw,sock_conn,respuesta);
 			
 			if (strcmp(respuesta,us)==0){
 				char conectados [512];
 				DameConectados(&miLista, conectados);
-				sprintf(notificacion,"5/%s ",conectados);			
-				for(int j =0; j<i;j++)
+				sprintf(notificacion,"5/%s", conectados);			
+				for(int j =0; j<=miLista.num;j++)
 				{
 					write(sockets[j],notificacion,strlen(notificacion));
-					printf("%s\n",notificacion);
+					printf("La notificación es: %s\n",notificacion);
 				}
 				strcpy(notificacion,"");
 			}
 			
 		}
 		
-		if (codigo !=0)
+		/*else if (codigo == 5) //PEticion de la implementacion 5 (Registrar)
+		{
+		
+		}
+		*/
+		else if (codigo == 6)
+			// cuando el cliente invita a otra persona
+		{
+			printf("---------------------------------------------------\n");
+			printf("Entramos en la peticion (InvitarAOtraPersona)\n");
+			char invitado [20];
+			strcpy (invitado, nombre);
+			int socket_invitado;
+			socket_invitado = DameSocket(&miLista,invitado);  //obtenemos el socket del invitado
+			printf ("Voy a invitar a %d, %s \n", socket_invitado, invitado);
+			strcpy(respuesta,"");
+			sprintf (respuesta,"6/%s",us);
+			write (socket_invitado,respuesta, strlen(respuesta));  //le enviamos la solicitud solo al invitado
+			strcpy(respuesta,"");
+			
+		}
+		else if (codigo == 7)
+			// cuando invitan al cliente
+		{
+			printf("---------------------------------------------------\n");
+			printf("Entramos en la peticion (CuandoInvitamos)\n");
+			char invitador [20];
+			char decision [10];
+			int socket_invitador;
+			strcpy (invitador, nombre);
+			p = strtok( NULL, "/");
+			strcpy (decision, p);
+			
+			if (strcmp(decision, "SI")==0)
+			{
+				printf("invitador: %s \n",invitador);
+				socket_invitador = DameSocket(&miLista,invitador);  //buscamos el socket de la persona que nos ha invitado
+				sprintf (respuesta,"7/%d",1);
+			}
+			if (strcmp(decision, "NO")==0)
+			{
+				printf("invitador: %s \n",invitador);
+				socket_invitador = DameSocket(&miLista,invitador);  //buscamos el socket de la persona que nos ha invitado
+				sprintf (respuesta,"7/%d",0);
+			}
+			
+			write (socket_invitador,respuesta, strlen(respuesta));  //respondemos solo a quien nos ha invitado
+			printf("%s\n",respuesta);
+			strcpy(respuesta,"");
+		}
+		
+		if ((codigo !=0) && (codigo!=6) && (codigo!= 7))
 		{
 			
 			printf ("Respuesta: %s\n", respuesta);
@@ -435,35 +586,26 @@ void *AtenderCliente (void *socket)
 		}
 		if ((codigo ==1)||(codigo ==2)||(codigo ==3)||(codigo ==4)) //Mientras se están procesando todas las acciones
 		{
-			/*
-			//algunos clientes pueden
-			pthread_mutex_lock( &mutex); //NO me interrumpas ahora
-			contador=contador+1;
-			pthread_mutex_unlock( &mutex); //ya puedes interrumpirme
-			
-			//Notificar a todos los clientes conectados
-			char notificacion [20];
-			sprintf(notificacion, "5/%s", conectados);
-			int j;
-			for(j=0; j<i; j++)
-				write (sockets[j], notificacion, strlen(notificacion)); 
-			//no estar conectados, se arreglará más adelante*/
+			printf("---------------------------------------------------\n");
+			printf("Esto lo ejecutamos mientras todo se procesa\n");
 			pthread_mutex_lock( &mutex);
-		char conectados[512];
-		DameConectados (&miLista, conectados);
-		
-		sprintf(notificacion,"5/%s",conectados);
-		
-		printf("%s\n",notificacion);
-		
-		//notificar a todos los clientes conectados
-		for(int j =0; j<i;j++)
-		{
-			write(sockets[j],notificacion,strlen(notificacion));
+			char conectados[512];
+			DameConectados (&miLista, conectados);
+			
+			sprintf(notificacion,"5/%s",conectados);
+			
+			printf("La notificacion es: %s\n",notificacion);
+			
+			//notificar a todos los clientes conectados
+			for(int j =0; j<miLista.num;j++)
+			{
+				write(sockets[j],notificacion,strlen(notificacion));
+				printf("notificamos a todos los clientes que: %s\n",notificacion);
+			}
+			strcpy(notificacion,"");
+			pthread_mutex_unlock( &mutex); //ya puedes interrumpirme
 		}
-		strcpy(notificacion,"");
-		pthread_mutex_unlock( &mutex); //ya puedes interrumpirme
-		}
+		
 		
 	}
 	close(sock_conn);
@@ -476,8 +618,8 @@ int main(int argc, char *argv[])
 	miLista.num=0;
 	int sock_conn, sock_listen, ret;
 	struct sockaddr_in serv_adr;
-	int puerto = 50079;
-	//int puerto = 9060;
+	//int puerto = 50079;
+	int puerto = 9019;
 	
 	
 	// INICIALITZACIONS
@@ -494,26 +636,33 @@ int main(int argc, char *argv[])
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 	// establecemos el puerto de escucha
 	serv_adr.sin_port = htons(puerto);
+	
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
-		printf ("Error al bind");
-	
-	if (listen(sock_listen, 3) < 0)
-		printf("Error en el Listen");
-	
-	
-	
-	pthread_t thread[100];
-	
-	// Infinito
-	for (;;){
-		
-		printf ("Escuchando\n");		
-		sock_conn = accept(sock_listen, NULL, NULL);
-		printf ("He recibido conexion\n");
-		//sock_conn es el socket que usaremos para este cliente
-		
-		sockets[i] = sock_conn;
-		pthread_create (&thread[i],NULL,AtenderCliente,&sockets[i]);
-		
+	{
+		printf ("Error al bind, cambia el puerto\n");
+	}
+	else if (listen(sock_listen, 3) < 0)
+	{
+		printf("Error en el Listen\n");
+	}
+	else 
+	{
+		i=0;
+		pthread_t thread[100];
+		// Infinito
+		for (;;)
+		{
+			
+			printf ("Escuchando\n");		
+			sock_conn = accept(sock_listen, NULL, NULL);
+			printf ("He otorgado el socket: %d a esta conexión\n",sock_conn);
+			//sock_conn es el socket que usaremos para este cliente		
+			
+			sockets[i] = sock_conn;
+			
+			pthread_create (&thread[i],NULL,AtenderCliente,&sockets[i]);
+			i=i+1;
+			
+		}
 	}
 }

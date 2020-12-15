@@ -1,8 +1,0 @@
-C:\share\Proyecto_Definitivo_SO\Cliente\Cliente\bin\Release\Cliente.exe
-C:\share\Proyecto_Definitivo_SO\Cliente\Cliente\bin\Release\Cliente.pdb
-C:\share\Proyecto_Definitivo_SO\Cliente\Cliente\obj\x86\Release\Cliente.Form1.resources
-C:\share\Proyecto_Definitivo_SO\Cliente\Cliente\obj\x86\Release\Cliente.LogIn.resources
-C:\share\Proyecto_Definitivo_SO\Cliente\Cliente\obj\x86\Release\Cliente.Properties.Resources.resources
-C:\share\Proyecto_Definitivo_SO\Cliente\Cliente\obj\x86\Release\Cliente.csproj.GenerateResource.Cache
-C:\share\Proyecto_Definitivo_SO\Cliente\Cliente\obj\x86\Release\Cliente.exe
-C:\share\Proyecto_Definitivo_SO\Cliente\Cliente\obj\x86\Release\Cliente.pdb
